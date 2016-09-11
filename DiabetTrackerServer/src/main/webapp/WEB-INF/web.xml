@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+	
+	<display-name>DiabetTracker</display-name>
+
+	<!-- RestEasy Bootstrap -->
+	<listener>
+		<listener-class>org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap</listener-class>
+	</listener>
+
+	<!-- Spring Bootstrap -->
+	<listener>
+		<listener-class>org.jboss.resteasy.plugins.spring.SpringContextLoaderListener</listener-class>
+	</listener>
+
+	<!-- RestEasy Servlet -->
+	<servlet>
+		<servlet-name>javax.ws.rs.core.Application</servlet-name>
+		<servlet-class>org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>javax.ws.rs.core.Application</servlet-name>
+		<url-pattern>/trackerAPI/*</url-pattern>
+	</servlet-mapping>
+
+	<!-- loading Spring Context for registering beans with ApplicationContext -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>WEB-INF/spring-diabettracker.xml</param-value>
+	</context-param>
+
+	<!-- this is mandatory, if url-pattern is other than /* -->
+	<context-param>
+		<param-name>resteasy.servlet.mapping.prefix</param-name>
+		<param-value>/trackerAPI</param-value>
+	</context-param>
+	
+	<!-- welcome file -->
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+</web-app>
