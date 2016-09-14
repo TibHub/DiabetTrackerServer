@@ -1,7 +1,5 @@
 package com.diabettracker.model;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,7 +19,7 @@ public class Calory {
 	private int value;
 
 	@Column(name = "hour")
-	private Date hour;
+	private String hour;
 
 	@Column(name = "userId")
 	private String userId;
@@ -29,17 +27,21 @@ public class Calory {
 	@Column(name = "dayOfWeek")
 	private String dayOfWeek;
 
+	@Column(name = "date")
+	private String date;
+
 	public Calory() {
 		super();
 	}
 
-	public Calory(int caloryId, int value, Date hour, String userId, String dayOfWeek) {
+	public Calory(int caloryId, int value, String hour, String userId, String dayOfWeek, String date) {
 		super();
 		this.caloryId = caloryId;
 		this.value = value;
 		this.hour = hour;
 		this.userId = userId;
 		this.dayOfWeek = dayOfWeek;
+		this.date = date;
 	}
 
 	public int getCaloryId() {
@@ -58,11 +60,11 @@ public class Calory {
 		this.value = value;
 	}
 
-	public Date getHour() {
+	public String getHour() {
 		return hour;
 	}
 
-	public void setHour(Date hour) {
+	public void setHour(String hour) {
 		this.hour = hour;
 	}
 
@@ -80,6 +82,14 @@ public class Calory {
 
 	public void setDayOfWeek(String dayOfWeek) {
 		this.dayOfWeek = dayOfWeek;
+	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
 	}
 
 }

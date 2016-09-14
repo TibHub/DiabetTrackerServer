@@ -6,5 +6,7 @@ import com.diabettracker.model.Calory;
 
 public interface ICaloryDAO {
 
-	List<Calory> getAllCalories();
+	List<Calory> getAllSamples();
+
+	List<Calory> getSamplesByPeriodAndDayOfWeek(String startDate, String endDate, String dayOfWeek);
 }

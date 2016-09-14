@@ -17,8 +17,13 @@ public class CaloryDAOImpl implements ICaloryDAO {
 
 	@Transactional
 	@SuppressWarnings("unchecked")
-	public List<Calory> getAllCalories() {
+	public List<Calory> getAllSamples() {
 		return sessionFactory.getCurrentSession().createCriteria(Calory.class).list();
+	}
+
+	public List<Calory> getSamplesByPeriodAndDayOfWeek(String startDate, String endDate, String dayOfWeek) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
