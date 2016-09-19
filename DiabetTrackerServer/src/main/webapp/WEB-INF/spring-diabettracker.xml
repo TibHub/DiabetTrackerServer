@@ -29,6 +29,8 @@
 		<property name="annotatedClasses">
 			<list>
 				<value>com.diabettracker.model.Calory</value>
+				<value>com.diabettracker.model.TimeSeries</value>
+				<value>com.diabettracker.model.HourValuePair</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">

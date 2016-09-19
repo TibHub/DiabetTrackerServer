@@ -9,9 +9,9 @@ public class JCA {
 	private List<DataPoint> mDataPoints = new ArrayList<DataPoint>();
 	private double mSWCSS;
 
-	public JCA(int k, int iter, List<DataPoint> dataPoints) {
-		clusters = new Cluster[k];
-		for (int i = 0; i < k; i++) {
+	public JCA(int nbClusters, int iter, List<DataPoint> dataPoints) {
+		clusters = new Cluster[nbClusters];
+		for (int i = 0; i < nbClusters; i++) {
 			clusters[i] = new Cluster("Cluster" + i);
 		}
 		this.miter = iter;
@@ -50,6 +50,10 @@ public class JCA {
 
 		// recalculer E pour tout les Clusters
 		calcSWCSS();
+		
+		double tempEuDt;
+		Cluster tempCluster;
+		boolean matchFoundFlag;
 
 		for (int i = 0; i < miter; i++) {
 			// cluster 1
@@ -58,9 +62,9 @@ public class JCA {
 
 					// prendre le 1er element du 1er cluster
 					// prendre l'Euclidean distance actuel
-					double tempEuDt = clusters[j].getDataPoint(k).getCurrentEuDt();
-					Cluster tempCluster = null;
-					boolean matchFoundFlag = false;
+					tempEuDt = clusters[j].getDataPoint(k).getCurrentEuDt();
+					tempCluster = null;
+					matchFoundFlag = false;
 
 					// appels au testEuclidean distance pour tout les clusters
 					for (int l = 0; l < clusters.length; l++) {
@@ -102,8 +106,9 @@ public class JCA {
 	}
 
 	// Récupére les datapoints des différents clusters
+	@SuppressWarnings("unchecked")
 	public List<DataPoint>[] getClusterOutput() {
-		List<DataPoint> v[] = new List<DataPoint>[clusters.length];
+		List<DataPoint> v[] = new List[clusters.length];
 		for (int i = 0; i < clusters.length; i++) {
 			v[i] = clusters[i].getDataPoints();
 		}
@@ -180,5 +185,9 @@ public class JCA {
 
 	public Cluster getCluster(int pos) {
 		return clusters[pos];
+	}
+	
+	public Cluster[] getClusters() {
+		return clusters;
 	}
 }

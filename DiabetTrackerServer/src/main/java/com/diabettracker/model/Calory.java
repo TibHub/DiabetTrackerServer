@@ -1,5 +1,7 @@
 package com.diabettracker.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,7 +10,12 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "calory")
-public class Calory {
+public class Calory implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue
@@ -16,7 +23,7 @@ public class Calory {
 	private int caloryId;
 
 	@Column(name = "value")
-	private int value;
+	private Double value;
 
 	@Column(name = "hour")
 	private String hour;
@@ -34,7 +41,7 @@ public class Calory {
 		super();
 	}
 
-	public Calory(int caloryId, int value, String hour, String userId, String dayOfWeek, String date) {
+	public Calory(int caloryId, Double value, String hour, String userId, String dayOfWeek, String date) {
 		super();
 		this.caloryId = caloryId;
 		this.value = value;
@@ -52,11 +59,11 @@ public class Calory {
 		this.caloryId = caloryId;
 	}
 
-	public int getValue() {
+	public Double getValue() {
 		return value;
 	}
 
-	public void setValue(int value) {
+	public void setValue(Double value) {
 		this.value = value;
 	}
 

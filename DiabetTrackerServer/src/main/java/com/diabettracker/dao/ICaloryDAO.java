@@ -8,5 +8,5 @@ public interface ICaloryDAO {
 
 	List<Calory> getAllSamples();
 
-	List<Calory> getSamplesByPeriodAndDayOfWeek(String startDate, String endDate, String dayOfWeek);
+	List<Calory> getSamplesByPeriodAndDayOfWeek(String startDate, String endDate, String dayOfWeek, String granularity);
 }
