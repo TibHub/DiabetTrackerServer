@@ -21,7 +21,7 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
 
 /**
- * Job réalisant les profiles avec l'heure comme granularité d'échantillonage
+ * Job rÃ©alisant les profiles avec l'heure comme granularitÃ© d'Ã©chantillonage
  */
 public class ProfileMakerJobImpl implements Job {
 
@@ -42,8 +42,8 @@ public class ProfileMakerJobImpl implements Job {
 	private List<Calory> getSamples() {
 		List<Calory> samples = new ArrayList<Calory>();
 
-		// Le job est démarré au delà de minuit, pour recalculer le profil du
-		// jour qui vient de prendre fin il faut retirer un jour à la date
+		// Le job est dï¿½marrï¿½ au delï¿½ de minuit, pour recalculer le profil du
+		// jour qui vient de prendre fin il faut retirer un jour ï¿½ la date
 		// actuelle
 		DateTime yesterday = new DateTime(new Date()).minusDays(1);
 		dayOfWeek = yesterday.dayOfWeek().getAsText();
@@ -74,8 +74,8 @@ public class ProfileMakerJobImpl implements Job {
 
 		List<Calory> calories = getSamples();
 
-		// Les différents échantillons sont rassemblés en fonction de l'heure à
-		// laquelle ils ont été enregistré
+		// Les diffï¿½rents ï¿½chantillons sont rassemblï¿½s en fonction de l'heure ï¿½
+		// laquelle ils ont ï¿½tï¿½ enregistrï¿½
 		Multimap<String, Calory> calorySamplesPerHour = Multimaps.index(calories, new Function<Calory, String>() {
 
 			public String apply(Calory cal) {
@@ -148,7 +148,7 @@ public class ProfileMakerJobImpl implements Job {
 						Constants.ONE_HOUR_GRANULARITY_SAMPLE);
 
 		List<Double> centroids;
-		// Il y a autant de tâches JCA que d'heures
+		// Il y a autant de tï¿½ches JCA que d'heures
 		for (int i = 0; i < hours.length && i < jcaBox.size(); i++) {
 			JCA jca = jcaBox.get(i);
 			jca.startAnalysis();

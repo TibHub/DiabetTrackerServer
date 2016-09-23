@@ -16,11 +16,12 @@ public class AuthorizationServiceImpl implements IAuthorizationService {
 
 	public List<Calory> doGet() {
 		List<Calory> calories = dao.getAllSamples();
+		System.out.println("Requete reçue + ");
 		return calories;
 	}
 
 	public String doPostAuthCode(String code) {
-		return "Le code re�u est " + code;
+		return "Le code reçu est " + code;
 	}
 
 }
