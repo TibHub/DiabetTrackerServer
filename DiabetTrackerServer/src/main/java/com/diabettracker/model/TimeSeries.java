@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -35,7 +36,10 @@ public class TimeSeries implements Serializable {
 	@Column(name = "granularity")
 	private String granularity;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "timeSeries")
+	@Column(name = "dayOfWeek")
+	private String dayOfWeek;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "timeSeries", cascade = { CascadeType.ALL })
 	private List<HourValuePair> hourValuePairs;
 
 	public TimeSeries() {
@@ -43,13 +47,15 @@ public class TimeSeries implements Serializable {
 		this.type = "";
 		this.granularity = "";
 		this.hourValuePairs = new ArrayList<HourValuePair>();
+		this.dayOfWeek = "";
 	}
 
-	public TimeSeries(String type, String granularity) {
+	public TimeSeries(String type, String granularity, String dayOfWeek) {
 		super();
 		this.type = type;
 		this.granularity = granularity;
 		this.hourValuePairs = new ArrayList<HourValuePair>();
+		this.dayOfWeek = dayOfWeek;
 	}
 
 	public String getType() {
@@ -80,6 +86,14 @@ public class TimeSeries implements Serializable {
 	@Transient
 	public void addHourValuePair(HourValuePair pair) {
 		this.hourValuePairs.add(pair);
+	}
+
+	public String getDayOfWeek() {
+		return dayOfWeek;
+	}
+
+	public void setDayOfWeek(String dayOfWeek) {
+		this.dayOfWeek = dayOfWeek;
 	}
 
 }

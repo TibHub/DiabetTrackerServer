@@ -42,14 +42,15 @@ public class ProfileMakerJobImpl implements Job {
 	private List<Calory> getSamples() {
 		List<Calory> samples = new ArrayList<Calory>();
 
-		// Le job est d�marr� au del� de minuit, pour recalculer le profil du
-		// jour qui vient de prendre fin il faut retirer un jour � la date
+		// Le job est démarré au delà de minuit, pour recalculer le profil du
+		// jour qui vient de prendre fin il faut retirer un jour à la date
 		// actuelle
-		DateTime yesterday = new DateTime(new Date()).minusDays(1);
+		// DateTime yesterday = new DateTime(new Date()).minusDays(1);
+		DateTime yesterday = new DateTime(new Date());
 		dayOfWeek = yesterday.dayOfWeek().getAsText();
 		DateTime startDate = yesterday.minusWeeks(Constants.NB_DAYS);
-		samples = caloryDAO.getSamplesByPeriodAndDayOfWeek(Constants.dateFormater.format(startDate),
-				Constants.dateFormater.format(yesterday), dayOfWeek, Constants.ONE_HOUR_GRANULARITY_SAMPLE);
+		samples = caloryDAO.getSamplesByPeriodAndDayOfWeek(Constants.dateFormater.format(startDate.toDate()),
+				Constants.dateFormater.format(yesterday.toDate()), dayOfWeek, Constants.ONE_HOUR_GRANULARITY_SAMPLE);
 		return samples;
 	}
 
@@ -68,11 +69,14 @@ public class ProfileMakerJobImpl implements Job {
 		// TODO Auto-generated method stub
 
 		// https://api.fitbit.com/1/user/-/activities/calories/date/2016-09-10/1d/15min/time/14:00/15:00.json
-		if (true) {
+		boolean creation = false;
+
+		System.out.println("Début de la tâche de création de profiles");
+		List<Calory> calories = getSamples();
+		if (calories.isEmpty()) {
+			System.out.println("Pas de calory samples, fin de tâche.");
 			return;
 		}
-
-		List<Calory> calories = getSamples();
 
 		// Les diff�rents �chantillons sont rassembl�s en fonction de l'heure �
 		// laquelle ils ont �t� enregistr�
@@ -140,14 +144,31 @@ public class ProfileMakerJobImpl implements Job {
 					turnIntoDataPoints(calorySamplesPerHour.get(hour))));
 		}
 
-		TimeSeries lowProfile = new TimeSeries(Constants.TIME_SERIES_LOW_ACT_PROFILE,
-				Constants.ONE_HOUR_GRANULARITY_SAMPLE),
-				normalProfile = new TimeSeries(Constants.TIME_SERIES_NORMAL_ACT_PROFILE,
-						Constants.ONE_HOUR_GRANULARITY_SAMPLE),
-				highProfile = new TimeSeries(Constants.TIME_SERIES_HIGH_ACT_PROFILE,
-						Constants.ONE_HOUR_GRANULARITY_SAMPLE);
+		TimeSeries lowProfile = timeSeriesDAO.getTimeSeries(Constants.TIME_SERIES_LOW_ACT_PROFILE, dayOfWeek);
+		TimeSeries normalProfile = timeSeriesDAO.getTimeSeries(Constants.TIME_SERIES_NORMAL_ACT_PROFILE, dayOfWeek);
+		TimeSeries highProfile = timeSeriesDAO.getTimeSeries(Constants.TIME_SERIES_HIGH_ACT_PROFILE, dayOfWeek);
+
+		if (lowProfile == null) {
+			lowProfile = new TimeSeries(Constants.TIME_SERIES_LOW_ACT_PROFILE, Constants.ONE_HOUR_GRANULARITY_SAMPLE,
+					dayOfWeek);
+			creation = true;
+		}
+		if (normalProfile == null) {
+			normalProfile = new TimeSeries(Constants.TIME_SERIES_NORMAL_ACT_PROFILE,
+					Constants.ONE_HOUR_GRANULARITY_SAMPLE, dayOfWeek);
+			creation = true;
+		}
+		if (highProfile == null) {
+			highProfile = new TimeSeries(Constants.TIME_SERIES_HIGH_ACT_PROFILE, Constants.ONE_HOUR_GRANULARITY_SAMPLE,
+					dayOfWeek);
+			creation = true;
+		}
 
 		List<Double> centroids;
+		List<HourValuePair> low = new ArrayList<>();
+		List<HourValuePair> normal = new ArrayList<>();
+		List<HourValuePair> high = new ArrayList<>();
+
 		// Il y a autant de t�ches JCA que d'heures
 		for (int i = 0; i < hours.length && i < jcaBox.size(); i++) {
 			JCA jca = jcaBox.get(i);
@@ -157,14 +178,28 @@ public class ProfileMakerJobImpl implements Job {
 				centroids.add(new Double(cluster.getCentroid().getCy()));
 			}
 			Collections.sort(centroids);
-			lowProfile.addHourValuePair(new HourValuePair(hours[i], centroids.get(0), lowProfile));
-			normalProfile.addHourValuePair(new HourValuePair(hours[i], centroids.get(1), normalProfile));
-			highProfile.addHourValuePair(new HourValuePair(hours[i], centroids.get(2), highProfile));
+			low.add(new HourValuePair(hours[i], centroids.get(0), lowProfile));
+			normal.add(new HourValuePair(hours[i], centroids.get(1), normalProfile));
+			high.add(new HourValuePair(hours[i], centroids.get(2), highProfile));
 		}
 
-		timeSeriesDAO.save(lowProfile);
-		timeSeriesDAO.save(normalProfile);
-		timeSeriesDAO.save(highProfile);
+		if (!creation) {
+			timeSeriesDAO.remove(lowProfile);
+			timeSeriesDAO.remove(normalProfile);
+			timeSeriesDAO.remove(highProfile);
+
+		}
+		lowProfile = new TimeSeries(Constants.TIME_SERIES_LOW_ACT_PROFILE, Constants.ONE_HOUR_GRANULARITY_SAMPLE,
+				dayOfWeek);
+		normalProfile = new TimeSeries(Constants.TIME_SERIES_NORMAL_ACT_PROFILE, Constants.ONE_HOUR_GRANULARITY_SAMPLE,
+				dayOfWeek);
+		highProfile = new TimeSeries(Constants.TIME_SERIES_HIGH_ACT_PROFILE, Constants.ONE_HOUR_GRANULARITY_SAMPLE,
+				dayOfWeek);
+		timeSeriesDAO.save(lowProfile, low);
+		timeSeriesDAO.save(normalProfile, normal);
+		timeSeriesDAO.save(highProfile, high);
+
+		System.out.println("Fin de la tâche de création de profiles");
 	}
 
 }

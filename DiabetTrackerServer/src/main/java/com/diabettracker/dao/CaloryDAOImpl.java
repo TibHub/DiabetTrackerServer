@@ -1,6 +1,9 @@
 package com.diabettracker.dao;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.NoResultException;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -11,7 +14,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.diabettracker.model.Calory;
-import com.diabettracker.process.Constants;
 
 @Repository("caloryDAO")
 public class CaloryDAOImpl implements ICaloryDAO {
@@ -25,6 +27,7 @@ public class CaloryDAOImpl implements ICaloryDAO {
 		return sessionFactory.getCurrentSession().createCriteria(Calory.class).list();
 	}
 
+	@Transactional
 	public List<Calory> getSamplesByPeriodAndDayOfWeek(String startDate, String endDate, String dayOfWeek,
 			String granularity) {
 		Session session = sessionFactory.getCurrentSession();
@@ -32,9 +35,29 @@ public class CaloryDAOImpl implements ICaloryDAO {
 		crit.add(Restrictions.ge("date", startDate));
 		crit.add(Restrictions.le("date", endDate));
 		crit.add(Restrictions.eq("dayOfWeek", dayOfWeek));
-		crit.add(Restrictions.ilike("type", Constants.ONE_HOUR_GRANULARITY_SAMPLE));
+		// crit.add(Restrictions.ilike("type",
+		// Constants.ONE_HOUR_GRANULARITY_SAMPLE));
 		// TODO Auto-generated method stub
-		return null;
+		return (List<Calory>) crit.list();
+	}
+
+	@Transactional
+	public void save(Calory cal) {
+		sessionFactory.getCurrentSession().save(cal);
+	}
+
+	@Override
+	@Transactional
+	public List<Calory> getSamplesByDate(String date) {
+		Criteria crit = sessionFactory.getCurrentSession().createCriteria(Calory.class);
+		crit.add(Restrictions.eq("date", date));
+		List<Calory> notifs;
+		try {
+			notifs = crit.list();
+		} catch (NoResultException e) {
+			notifs = new ArrayList<>();
+		}
+		return notifs;
 	}
 
 }

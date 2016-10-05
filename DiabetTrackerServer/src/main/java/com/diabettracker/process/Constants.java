@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 public final class Constants {
 
 	/**
-	 * Les clés des ensembles d'échantillons avec une granularité d'une heure
+	 * Les clï¿½s des ensembles d'ï¿½chantillons avec une granularitï¿½ d'une heure
 	 **/
 	public static final String MIDNIGHT = "00:00";
 	public static final String ONE_AM = "01:00";
@@ -33,7 +33,7 @@ public final class Constants {
 	public static final String ELEVEN_PM = "23:00";
 
 	/**
-	 * Le nombre de jours à prendre en compte dans la création d'un profil
+	 * Le nombre de jours Ã  prendre en compte dans la crï¿½ation d'un profil
 	 */
 	public static final int NB_DAYS = 30;
 
@@ -41,14 +41,39 @@ public final class Constants {
 
 	public static final int NB_CLUSTERS = 3;
 
-	public static final int NB_ITER = 1000;
-	
+	public static final int NB_ITER = 100;
+
 	public static final String ONE_HOUR_GRANULARITY_SAMPLE = "ONE_HOUR";
-	
+
 	public static final String TIME_SERIES_HIGH_ACT_PROFILE = "HIGH_ACTIVITY_PROFILE";
 	public static final String TIME_SERIES_NORMAL_ACT_PROFILE = "NORMAL_ACTIVITY_PROFILE";
 	public static final String TIME_SERIES_LOW_ACT_PROFILE = "LOW_ACTIVITY_PROFILE";
 	public static final String TIME_SERIES_FOOTSTEPS = "FOOTSTEPS";
 	public static final String TIME_SERIES_DISTANCE = "DISTANCE";
+	public static final String TIME_SERIES_CALORIES = "CALORIES";
 
+	public static final String FITBIT_API_PATH = "https://api.fitbit.com/1/user/-/activities/{0}/date/{1}/1d/{2}/time/{3}/{4}.json";
+	public static final String FITBIT_API_INTRADAY_UNITY = "15min";
+	public static final String FITBIT_API_DATATYPE_CALORIES = "calories";
+	public static final String FITBIT_API_DATATYPE_DISTANCE = "distance";
+	public static final String FITBIT_API_DATATYPE_FOOTSTEPS = "footsteps";
+
+	/**
+	 * La rÃ©ponse JSON attendue est du type: {"activities-xxx": [{"dateTime":
+	 * "YYYY-MM-dd","value": "1355.49"}]}
+	 */
+	public static final String FITBIT_API_INTRADAY_CALORIES_KEY = "activities-calories";
+	public static final String FITBIT_API_INTRADAY_DISTANCE_KEY = "activities-distance";
+	public static final String FITBIT_API_INTRADAY_FOOTSTEPS_KEY = "activities-footsteps";
+	public static final String FITBIT_API_INTRADAY_HOUR_AMOUNT_VALUE_KEY = "value";
+
+	public static final String FITBIT_CLIENT_SECRET = "a86b76e3f0b4eb9fb6215a2dd45a7517";
+	public static final String FITBIT_CLIENT_ID = "227MX7";
+
+	/**
+	 * 
+	 */
+	public static final String FITBIT_API_TOKEN_GRANT = "grant_type";
+	public static final String FITBIT_API_TOKEN_REFRESH = "refresh_token";
+	public static final String FITBIT_API_TOKEN_PATH = "https://api.fitbit.com/oauth2/token";
 }

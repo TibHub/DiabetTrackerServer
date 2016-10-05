@@ -9,8 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "calory")
-public class Calory implements Serializable {
+@Table(name = "footsteps")
+public class Footsteps implements Serializable {
 
 	/**
 	 * 
@@ -19,8 +19,8 @@ public class Calory implements Serializable {
 
 	@Id
 	@GeneratedValue
-	@Column(name = "idCalory")
-	private int caloryId;
+	@Column(name = "idFootsteps")
+	private int footstepsId;
 
 	@Column(name = "value")
 	private Double value;
@@ -37,11 +37,11 @@ public class Calory implements Serializable {
 	@Column(name = "date")
 	private String date;
 
-	public Calory() {
+	public Footsteps() {
 		super();
 	}
 
-	public Calory(Double value, String hour, String userId, String dayOfWeek, String date) {
+	public Footsteps(Double value, String hour, String userId, String dayOfWeek, String date) {
 		super();
 		this.value = value;
 		this.hour = hour;
@@ -50,12 +50,12 @@ public class Calory implements Serializable {
 		this.date = date;
 	}
 
-	public int getCaloryId() {
-		return caloryId;
+	public int getFootstepsId() {
+		return footstepsId;
 	}
 
-	public void setCaloryId(int caloryId) {
-		this.caloryId = caloryId;
+	public void setFootstepsId(int footstepsId) {
+		this.footstepsId = footstepsId;
 	}
 
 	public Double getValue() {
