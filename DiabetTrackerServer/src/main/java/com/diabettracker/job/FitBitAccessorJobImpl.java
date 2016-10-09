@@ -34,14 +34,20 @@ public class FitBitAccessorJobImpl implements Job {
 		String identity = Constants.FITBIT_CLIENT_ID + ":" + Constants.FITBIT_CLIENT_SECRET;
 		byte[] base = Base64.encodeBase64(identity.getBytes());
 		String convertedTo64 = new String(base);
-		HttpResponse res;
+
+		HttpResponse res = null;
 		HttpClient client = HttpClients.createDefault();
+
+		int tryCount = 0;
+		Integer httpCode = 0;
+
 		DateTime date = new DateTime(new Date());
 		String fDate = Constants.dateFormater.format(date.toDate());
 		int hourIndex = date.getHourOfDay();
 		String endHour = hours[hourIndex];
 		String startHour;
 		String json = "";
+
 		if (hourIndex != 0) {
 			startHour = hours[hourIndex - 1];
 		} else {
@@ -66,18 +72,29 @@ public class FitBitAccessorJobImpl implements Job {
 			e1.printStackTrace();
 		}
 
-		HttpGet httpGet = new HttpGet(caloriesCall);
-		httpGet.addHeader("Authorization", "Basic " + convertedTo64);
-		// httpGet.addHeader("Content-Type", "application/json");
-		try {
-			res = client.execute(httpGet);
-			HttpEntity answerEntity = res.getEntity();
-			json = EntityUtils.toString(answerEntity);
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		do {
+
+			if (httpCode == Constants.HTTP_CODE_UNAUTHORIZED) {
+				
+			}
+
+			HttpGet httpGet = new HttpGet(caloriesCall);
+			httpGet.addHeader("Authorization", "Basic " + convertedTo64);
+			// httpGet.addHeader("Content-Type", "application/json");
+			try {
+				res = client.execute(httpGet);
+				tryCount++;
+				res.getStatusLine().getStatusCode();
+				HttpEntity answerEntity = res.getEntity();
+				json = EntityUtils.toString(answerEntity);
+			} catch (ClientProtocolException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+		} while ((httpCode == Constants.HTTP_CODE_BAD_REQUEST || httpCode == Constants.HTTP_CODE_UNAUTHORIZED
+				|| httpCode == Constants.HTTP_CODE_FORBIDDEN) && tryCount < Constants.MAXCOUNT);
 
 		try {
 			json = URLDecoder.decode(json, "UTF-8");
@@ -86,7 +103,6 @@ public class FitBitAccessorJobImpl implements Job {
 			e.printStackTrace();
 		}
 
-		
 		// Première authentification
 		/**
 		 * POST https://api.fitbit.com/oauth2/token Authorization: Basic

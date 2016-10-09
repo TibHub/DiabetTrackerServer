@@ -49,32 +49,33 @@
 	<!-- dataSource configuration -->
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<!-- <property name="driverClassName" value="com.mysql.jdbc.Driver" /> -->
-		<property name="driverClassName" value="org.mariadb.jdbc.Driver" />
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<!-- <property name="driverClassName" value="org.mariadb.jdbc.Driver" /> -->
 		<!-- <property name="url" -->
 		<!-- value="jdbc:mysql://localhost:3306/diabet_tackr?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC" 
 			/> -->
-	<!-- <property name="url" -->
-	<!-- value="jdbc:mysql://172.18.135.237:3306/diabet_tracker?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC" 
-		/> -->
-		
+		<!-- <property name="url" -->
+		<!-- value="jdbc:mysql://172.18.135.237:3306/diabet_tracker?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC" 
+			/> -->
+
 		<property name="url"
-			value="jdbc:mysql://localhost:3306/diabet_tracker?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC" />
+			value="jdbc:mysql://localhost:3306/diabet_tackr?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC" />
 		<property name="username" value="root" />
-		<!-- <property name="password" value="lost...net23" /> -->
-		<property name="password" value="ebiomed2016" />
+		<property name="password" value="lost...net23" />
+		<!-- <property name="password" value="ebiomed2016" /> -->
 	</bean>
 
 	<!-- Scheduled tasks -->
 	<task:scheduled-tasks scheduler="myScheduler">
-		<task:scheduled ref="dataSetJob" method="performJob"
-			cron="0 45 10 * * ?" />
+		<!-- <task:scheduled ref="dataSetJob" method="performJob" -->
+		<!-- cron="0 45 10 * * ?" /> -->
 		<task:scheduled ref="profileMakerJob" method="performJob"
 			cron="0 57 12 * * ?" />
 	</task:scheduled-tasks>
 
 	<!-- Jobs declaration -->
-	<bean id="dataSetJob" class="com.diabettracker.job.DataSetJobImpl" />
+	<!-- <bean id="dataSetJob" class="com.diabettracker.job.DataSetJobImpl" 
+		/> -->
 	<bean id="profileMakerJob" class="com.diabettracker.job.ProfileMakerJobImpl" />
 
 	<!-- Scheduler declaration -->
