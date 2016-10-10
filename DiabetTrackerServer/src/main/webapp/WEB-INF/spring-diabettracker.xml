@@ -71,12 +71,15 @@
 		<!-- cron="0 45 10 * * ?" /> -->
 		<task:scheduled ref="profileMakerJob" method="performJob"
 			cron="0 57 12 * * ?" />
+		<task:scheduled ref="fitbitAccessorJob" method="performJob"
+			cron="0 01 19 * * ?" />
 	</task:scheduled-tasks>
 
 	<!-- Jobs declaration -->
 	<!-- <bean id="dataSetJob" class="com.diabettracker.job.DataSetJobImpl" 
 		/> -->
 	<bean id="profileMakerJob" class="com.diabettracker.job.ProfileMakerJobImpl" />
+	<bean id="fitbitAccessorJob" class="com.diabettracker.job.FitBitAccessorJobImpl" />
 
 	<!-- Scheduler declaration -->
 	<task:scheduler id="myScheduler" pool-size="10" />

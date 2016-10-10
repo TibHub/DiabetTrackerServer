@@ -52,7 +52,7 @@ public final class Constants {
 	public static final String TIME_SERIES_DISTANCE = "DISTANCE";
 	public static final String TIME_SERIES_CALORIES = "CALORIES";
 
-	public static final String FITBIT_API_PATH = "https://api.fitbit.com/1/user/-/activities/{0}/date/{1}/1d/{2}/time/{3}/{4}.json";
+	public static final String FITBIT_API_PATH = "https://api.fitbit.com/1/user/{0}/activities/{1}/date/{2}/1d/{3}/time/{4}/{5}.json";
 	public static final String FITBIT_API_INTRADAY_UNITY = "15min";
 	public static final String FITBIT_API_DATATYPE_CALORIES = "calories";
 	public static final String FITBIT_API_DATATYPE_DISTANCE = "distance";
@@ -73,10 +73,12 @@ public final class Constants {
 	public static final String FITBIT_API_AUTH_REDIRECT_KEY = "redirect_uri";
 	public static final String FITBIT_API_AUTH_REDIRECT_VALUE = "diabete://logincallback";
 	public static final String FITBIT_API_AUTH_CODE_KEY = "code";
-	
+
 	public static final String FITBIT_API_AUTH_RES_TOKEN_KEY = "access_token";
-	public static final String FITBIT_API_AUTH_RES_REFRESH_KEY = "refresh_token";
+	public static final String FITBIT_API_AUTH_REFRESH_KEY = "refresh_token";
 	public static final String FITBIT_API_AUTH_RES_USER_ID = "user_id";
+
+	public static final String FITBIT_API_REQUEST_TOKEN_TYPE = "Bearer";
 
 	/** app thibault */
 	public static final String FITBIT_CLIENT_SECRET = "a86b76e3f0b4eb9fb6215a2dd45a7517";
@@ -87,15 +89,10 @@ public final class Constants {
 	// "8d2d4e618ea3aabe55e880c7430cebcb";
 	// public static final String FITBIT_CLIENT_ID = "229NWD";
 
-	/**
-	 * 
-	 */
-	public static final String FITBIT_API_TOKEN_GRANT = "grant_type";
-	public static final String FITBIT_API_TOKEN_REFRESH = "refresh_token";
 	public static final String FITBIT_API_TOKEN_PATH = "https://api.fitbit.com/oauth2/token";
 
 	public static final int HTTP_CODE_BAD_REQUEST = 400;
 	public static final int HTTP_CODE_UNAUTHORIZED = 401;
 	public static final int HTTP_CODE_FORBIDDEN = 403;
-	public static final int MAXCOUNT = 5;
+	public static final int MAXCOUNT = 2;
 }

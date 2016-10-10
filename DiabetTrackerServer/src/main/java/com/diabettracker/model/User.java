@@ -25,14 +25,22 @@ public class User implements Serializable {
 	@Column(name = "fitbitUserId")
 	private String fitbitUserId;
 
-	@Column(name = "accessToken")
+	@Column(name = "accessToken", length = 1000)
 	private String accessToken;
 
-	@Column(name = "refreshToken")
+	@Column(name = "refreshToken", length = 500)
 	private String refreshToken;
+
+	@Column(name = "lockedForUpdate")
+	private boolean lockedForUpdate;
+
+	@Column(name = "lastUpdate")
+	private String lastUpdate;
 
 	public User() {
 		super();
+		this.lockedForUpdate = false;
+		this.lastUpdate = "00:01";
 	}
 
 	public User(String fitbitUserId, String accessToken, String refreshToken) {
@@ -40,6 +48,8 @@ public class User implements Serializable {
 		this.fitbitUserId = fitbitUserId;
 		this.accessToken = accessToken;
 		this.refreshToken = refreshToken;
+		this.lockedForUpdate = false;
+		this.lastUpdate = "00:01";
 	}
 
 	public String getFitbitUserId() {
@@ -64,6 +74,22 @@ public class User implements Serializable {
 
 	public void setRefreshToken(String refreshToken) {
 		this.refreshToken = refreshToken;
+	}
+
+	public boolean isLockedForUpdate() {
+		return lockedForUpdate;
+	}
+
+	public void setLockedForUpdate(boolean lockedForUpdate) {
+		this.lockedForUpdate = lockedForUpdate;
+	}
+
+	public String getLastUpdate() {
+		return lastUpdate;
+	}
+
+	public void setLastUpdate(String lastUpdate) {
+		this.lastUpdate = lastUpdate;
 	}
 
 }
