@@ -67,8 +67,6 @@ public class ProfileMakerJobImpl implements Job {
 
 	public void performJob() {
 		// TODO Auto-generated method stub
-
-		// https://api.fitbit.com/1/user/-/activities/calories/date/2016-09-10/1d/15min/time/14:00/15:00.json
 		boolean creation = false;
 
 		System.out.println("Début de la tâche de création de profiles");

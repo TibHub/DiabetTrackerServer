@@ -28,9 +28,6 @@ public class DataSetJobImpl implements Job {
 	@Override
 	public void performJob() {
 		System.out.println("Début du job de jeux de données");
-		if (true) {
-			return;
-		}
 
 		List<Calory> caloriesToSet = new ArrayList<>();
 		DateTime date = new DateTime(new Date());

@@ -34,7 +34,7 @@ public class HourValuePair implements Serializable {
 	@Column(name = "value")
 	private Double value;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
+	@ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
 	@JoinColumn(name = "time_series_id")
 	private TimeSeries timeSeries;
 

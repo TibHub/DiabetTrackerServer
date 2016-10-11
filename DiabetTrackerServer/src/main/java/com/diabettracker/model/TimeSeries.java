@@ -39,7 +39,7 @@ public class TimeSeries implements Serializable {
 	@Column(name = "dayOfWeek")
 	private String dayOfWeek;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "timeSeries", cascade = { CascadeType.ALL })
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "timeSeries", cascade = { CascadeType.ALL })
 	private List<HourValuePair> hourValuePairs;
 
 	public TimeSeries() {

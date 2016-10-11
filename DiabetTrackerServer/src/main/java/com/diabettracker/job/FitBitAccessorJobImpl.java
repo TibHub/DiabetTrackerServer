@@ -1,7 +1,5 @@
 package com.diabettracker.job;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,6 +17,9 @@ import com.diabettracker.dao.ICaloryDAO;
 import com.diabettracker.dao.IDistanceDAO;
 import com.diabettracker.dao.IFootstepsDAO;
 import com.diabettracker.dao.IUserDAO;
+import com.diabettracker.model.Calory;
+import com.diabettracker.model.Distance;
+import com.diabettracker.model.Footsteps;
 import com.diabettracker.model.User;
 import com.diabettracker.process.Constants;
 import com.diabettracker.process.HttpRequestHelper;
@@ -79,35 +80,29 @@ public class FitBitAccessorJobImpl implements Job {
 					Constants.FITBIT_API_DATATYPE_FOOTSTEPS, fDate, Constants.FITBIT_API_INTRADAY_UNITY, startHour,
 					endHour);
 
-			try {
-				caloriesCall = URLEncoder.encode(caloriesCall, "UTF-8");
-				distanceCall = URLEncoder.encode(distanceCall, "UTF-8");
-				footstepsCall = URLEncoder.encode(footstepsCall, "UTF-8");
-			} catch (UnsupportedEncodingException e1) {
-				e1.printStackTrace();
+			value = getValueWithUriAndObjectKeyAndValueKey(firstFreeUser, caloriesCall,
+					Constants.FITBIT_API_INTRADAY_CALORIES_KEY, Constants.FITBIT_API_INTRADAY_HOUR_AMOUNT_VALUE_KEY);
+
+			if (value != null) {
+				Calory cal = new Calory(value, startHour, firstFreeUser.getFitbitUserId(), dayOfWeek, fDate);
+				calDAO.save(cal);
 			}
 
-			System.out.println(caloriesCall);
-			// value = getValueWithUriAndObjectKeyAndValueKey(firstFreeUser,
-			// caloriesCall,
-			// Constants.FITBIT_API_INTRADAY_CALORIES_KEY,
-			// Constants.FITBIT_API_INTRADAY_HOUR_AMOUNT_VALUE_KEY);
-			//
-			// if (value != null) {
-			// Calory cal = new Calory(value, startHour,
-			// firstFreeUser.getFitbitUserId(), dayOfWeek, fDate);
-			// calDAO.save(cal);
-			// }
+			value = getValueWithUriAndObjectKeyAndValueKey(firstFreeUser, distanceCall,
+					Constants.FITBIT_API_INTRADAY_DISTANCE_KEY, Constants.FITBIT_API_INTRADAY_HOUR_AMOUNT_VALUE_KEY);
 
-			// getValueWithUriAndObjectKeyAndValueKey(firstFreeUser,
-			// distanceCall,
-			// Constants.FITBIT_API_INTRADAY_DISTANCE_KEY,
-			// Constants.FITBIT_API_INTRADAY_HOUR_AMOUNT_VALUE_KEY);
-			//
-			// getValueWithUriAndObjectKeyAndValueKey(firstFreeUser,
-			// footstepsCall,
-			// Constants.FITBIT_API_INTRADAY_FOOTSTEPS_KEY,
-			// Constants.FITBIT_API_INTRADAY_HOUR_AMOUNT_VALUE_KEY);
+			if (value != null) {
+				Distance dis = new Distance(value, startHour, firstFreeUser.getFitbitUserId(), dayOfWeek, fDate);
+				distanceDAO.save(dis);
+			}
+
+			value = getValueWithUriAndObjectKeyAndValueKey(firstFreeUser, footstepsCall,
+					Constants.FITBIT_API_INTRADAY_FOOTSTEPS_KEY, Constants.FITBIT_API_INTRADAY_HOUR_AMOUNT_VALUE_KEY);
+
+			if (value != null) {
+				Footsteps steps = new Footsteps(value, startHour, firstFreeUser.getFitbitUserId(), dayOfWeek, fDate);
+				footstepsDAO.save(steps);
+			}
 
 			firstFreeUser.setLastUpdate(startHour);
 			unlockUser(firstFreeUser);
@@ -155,13 +150,14 @@ public class FitBitAccessorJobImpl implements Job {
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
+				System.out.println("REFRESH TOKEN###############################################################################");
 			}
 
 			headers = new ArrayList<>();
 			headers.add(new BasicNameValuePair("Authorization",
 					Constants.FITBIT_API_REQUEST_TOKEN_TYPE + " " + user.getAccessToken()));
 			resultPair = HttpRequestHelper.doHttpGet(uri, headers);
-
+			System.out.println(resultPair.getMessage());
 			httpCode = resultPair.getStatus();
 
 		} while ((httpCode == Constants.HTTP_CODE_BAD_REQUEST || httpCode == Constants.HTTP_CODE_UNAUTHORIZED

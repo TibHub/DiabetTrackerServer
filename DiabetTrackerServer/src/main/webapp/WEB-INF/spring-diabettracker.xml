@@ -67,17 +67,16 @@
 
 	<!-- Scheduled tasks -->
 	<task:scheduled-tasks scheduler="myScheduler">
-		<!-- <task:scheduled ref="dataSetJob" method="performJob" -->
-		<!-- cron="0 45 10 * * ?" /> -->
+		<task:scheduled ref="dataSetJob" method="performJob"
+			cron="0 00 15 * * ?" />
 		<task:scheduled ref="profileMakerJob" method="performJob"
-			cron="0 57 12 * * ?" />
+			cron="0 03 15 * * ?" />
 		<task:scheduled ref="fitbitAccessorJob" method="performJob"
-			cron="0 01 19 * * ?" />
+			cron="0 09 * * * ?" />
 	</task:scheduled-tasks>
 
 	<!-- Jobs declaration -->
-	<!-- <bean id="dataSetJob" class="com.diabettracker.job.DataSetJobImpl" 
-		/> -->
+	<bean id="dataSetJob" class="com.diabettracker.job.DataSetJobImpl" />
 	<bean id="profileMakerJob" class="com.diabettracker.job.ProfileMakerJobImpl" />
 	<bean id="fitbitAccessorJob" class="com.diabettracker.job.FitBitAccessorJobImpl" />
 

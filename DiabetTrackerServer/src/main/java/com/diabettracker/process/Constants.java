@@ -52,11 +52,12 @@ public final class Constants {
 	public static final String TIME_SERIES_DISTANCE = "DISTANCE";
 	public static final String TIME_SERIES_CALORIES = "CALORIES";
 
-	public static final String FITBIT_API_PATH = "https://api.fitbit.com/1/user/{0}/activities/{1}/date/{2}/1d/{3}/time/{4}/{5}.json";
+	public static final String FITBIT_API_PATH = "https://api.fitbit.com/1/user/%s/activities/%s/date/%s/1d/%s/time/%s/%s.json";
+//	public static final String FITBIT_API_PATH = "https://api.fitbit.com/1/user/{0}/activities/{1}/date/{2}/1d/{3}/time/{4}/{5}.json";
 	public static final String FITBIT_API_INTRADAY_UNITY = "15min";
 	public static final String FITBIT_API_DATATYPE_CALORIES = "calories";
 	public static final String FITBIT_API_DATATYPE_DISTANCE = "distance";
-	public static final String FITBIT_API_DATATYPE_FOOTSTEPS = "footsteps";
+	public static final String FITBIT_API_DATATYPE_FOOTSTEPS = "steps";
 
 	/**
 	 * La réponse JSON attendue est du type: {"activities-xxx": [{"dateTime":
@@ -64,7 +65,7 @@ public final class Constants {
 	 */
 	public static final String FITBIT_API_INTRADAY_CALORIES_KEY = "activities-calories";
 	public static final String FITBIT_API_INTRADAY_DISTANCE_KEY = "activities-distance";
-	public static final String FITBIT_API_INTRADAY_FOOTSTEPS_KEY = "activities-footsteps";
+	public static final String FITBIT_API_INTRADAY_FOOTSTEPS_KEY = "activities-steps";
 	public static final String FITBIT_API_INTRADAY_HOUR_AMOUNT_VALUE_KEY = "value";
 
 	public static final String FITBIT_API_AUTH_CLIENTID_KEY = "client_id";
@@ -81,13 +82,13 @@ public final class Constants {
 	public static final String FITBIT_API_REQUEST_TOKEN_TYPE = "Bearer";
 
 	/** app thibault */
-	public static final String FITBIT_CLIENT_SECRET = "a86b76e3f0b4eb9fb6215a2dd45a7517";
-	public static final String FITBIT_CLIENT_ID = "227MX7";
+	// public static final String FITBIT_CLIENT_SECRET =
+	// "a86b76e3f0b4eb9fb6215a2dd45a7517";
+	// public static final String FITBIT_CLIENT_ID = "227MX7";
 
 	/** samApp */
-	// public static final String FITBIT_CLIENT_SECRET =
-	// "8d2d4e618ea3aabe55e880c7430cebcb";
-	// public static final String FITBIT_CLIENT_ID = "229NWD";
+	public static final String FITBIT_CLIENT_SECRET = "8d2d4e618ea3aabe55e880c7430cebcb";
+	public static final String FITBIT_CLIENT_ID = "229NWD";
 
 	public static final String FITBIT_API_TOKEN_PATH = "https://api.fitbit.com/oauth2/token";
 
